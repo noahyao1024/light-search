@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/noahyao1024/light-gopkg v0.0.0-20240126055629-a9bb5e8b5a37
+	github.com/noahyao1024/light-gopkg v0.0.0-20240201103837-2b4f876e18b9
 )
 
 require (
@@ -34,4 +34,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/noahyao1024/light-gopkg => /Users/morysky/repos/light-gopkg
+// replace github.com/noahyao1024/light-gopkg => /Users/morysky/repos/light-gopkg
