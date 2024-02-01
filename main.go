@@ -11,7 +11,7 @@ func main() {
 
 	r.GET("/:index/_search", handler.Search)
 	r.PUT("/:index", handler.Index)
-	r.POST("/:index", handler.Index)
+	r.POST("/:index", handler.Doc)
 
 	r.Run(":9200")
 }

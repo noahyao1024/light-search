@@ -44,17 +44,27 @@ func Index(c *gin.Context) {
 }
 
 func Doc(c *gin.Context) {
-	index := c.Param("index")
-	if index == "" {
+	request := &search.V1Request{
+		Index: c.Param("index"),
+	}
+
+	if request.Index == "" {
 		c.JSON(400, gin.H{
 			"message": "index is required",
 		})
 		return
 	}
 
+	if err := c.BindJSON(request); err != nil {
+		c.JSON(400, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	search.V1Put(c, request)
+
 	c.JSON(200, gin.H{
-		"123":     search.V1Index(c, index),
-		"456":     search.V1Index(c, index),
 		"message": "pong",
 	})
 }
