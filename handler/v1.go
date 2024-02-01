@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/noahyao1024/light-gopkg/search"
@@ -70,7 +72,28 @@ func Doc(c *gin.Context) {
 }
 
 func analyzeQuery(q string) *search.V1RequestQuery {
-	return &search.V1RequestQuery{
-		Raw: q,
+	request := &search.V1RequestQuery{
+		Raw:  q,
+		Regs: make(map[string]*regexp.Regexp),
 	}
+
+	for _, v := range strings.Split(q, ",") {
+		condition := strings.Split(v, ":")
+		if len(condition) != 2 {
+			continue
+		}
+
+		field := condition[0]
+		rawReg := strings.ReplaceAll(condition[1], "*", ".+")
+		rawReg = strings.ReplaceAll(rawReg, "_", ".")
+
+		reg, _ := regexp.Compile(rawReg)
+		if reg == nil {
+			continue
+		}
+
+		request.Regs[field] = reg
+	}
+
+	return request
 }
